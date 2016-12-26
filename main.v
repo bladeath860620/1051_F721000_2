@@ -1,26 +1,15 @@
-module main (clock, switch, reset, button4, led, seg5, seg4, seg3, seg2, seg1, seg0);
+module main (clock, switch, reset, hr1, hr0, min1, min0, sec1, sec0);
 	input clock, switch, reset;
-	input [3:0] button4;
-	output [7:0] led;
-	output [6:0] seg5, seg4, seg3, seg2, seg1, seg0;
+	output [6:0] hr1, hr0, min1, min0, sec1, sec0; //seg
 
-	reg [2:0] pos;
 	reg finish;
 
-	button b(switch, reset, button4, pos);
-	led l(pos, finish, led);
-	timer t(clock, switch, reset, finish, seg5, seg4, seg3, seg2, seg1, seg0);
+	timer t(clock, switch, reset, finish, hr1, hr0, min1, min0, sec1, sec0);
 
 	initial begin
-		pos = 3'b000;
-		finish = 1'b0;
+		finish = 0;
 	end
 
-	always @(*) begin
-		if (finish && switch) begin
-			finish = 1'b0;
-		end
-		else begin
-		end
+	always @(posedge clock) begin
 	end
 endmodule

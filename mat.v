@@ -1,14 +1,14 @@
 module mat (clock, m0, m1, m2, m3, m4, m5, m6, m7, row, col);
 	input clock;
-	input [15:0] m0, m1, m2, m3, m4, m5, m6, m7;
-	output reg [7 :0] row;
-	output reg [15:0] col;
+	input [7:0] m0, m1, m2, m3, m4, m5, m6, m7;
+	output reg [7:0] row;
+	output reg [7:0] col;
 
 	integer cnt, tmp;
 
 	initial begin
 		row = 8'b11111111;
-		col = 16'b0000000000000000;
+		col = 8'b00000000;
 		cnt = 0;
 		tmp = 0;
 	end

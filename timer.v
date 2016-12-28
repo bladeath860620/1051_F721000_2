@@ -1,5 +1,5 @@
-module timer (clock, switch, reset, finish, hr1, hr0, min1, min0, sec1, sec0);
-	input clock, switch, reset, finish;
+module timer (clock, reset, finish, switch, hr1, hr0, min1, min0, sec1, sec0);
+	input clock, reset, finish, switch;
 	output [6:0] hr1, hr0, min1, min0, sec1, sec0;
 
 	reg [3:0] hr  [1:0];
@@ -26,65 +26,6 @@ module timer (clock, switch, reset, finish, hr1, hr0, min1, min0, sec1, sec0);
 	end
 
 	always @(posedge clock) begin
-		if (switch) begin
-			if (cnt == 50000000) begin
-				if (sec[0] == 9) begin
-					sec[0] = 0;
-					if (sec[1] == 5) begin
-						sec[1] = 0;
-						if (min[0] == 9) begin
-							min[0] = 0;
-							if (min[1] == 5) begin
-								min[1] = 0;
-								if (hr[0] == 9) begin
-									hr[0] = 0;
-									if (hr[1] == 9) begin
-										hr[1] = 0;
-									end
-									else begin
-										hr[1] = hr[1] + 1;
-									end
-								end
-								else begin
-									hr[0] = hr[0] + 1;
-								end
-							end
-							else begin
-								min[1] = min[1] + 1;
-							end
-						end
-						else begin
-							min[0] = min[0] + 1;
-						end
-					end
-					else begin
-						sec[1] = sec[1] + 1;
-					end
-				end
-				else begin
-					sec[0] = sec[0] + 1;
-				end
-				cnt = 0;
-			end
-			else begin
-				cnt = cnt + 1;
-			end
-		end
-		else begin
-		end
-
-		if (finish) begin
-			hr [1] = 4'b1000;
-			hr [0] = 4'b1000;
-			min[1] = 4'b1000;
-			min[0] = 4'b1000;
-			sec[1] = 4'b1000;
-			sec[0] = 4'b1000;
-			cnt    = 0;
-		end
-		else begin
-		end
-
 		if (!reset) begin
 			hr [1] = 4'b0000;
 			hr [0] = 4'b0000;
@@ -93,6 +34,59 @@ module timer (clock, switch, reset, finish, hr1, hr0, min1, min0, sec1, sec0);
 			sec[1] = 4'b0000;
 			sec[0] = 4'b0000;
 			cnt    = 0;
+		end
+		else if (finish) begin
+			hr [1] = 4'b1000;
+			hr [0] = 4'b1000;
+			min[1] = 4'b1000;
+			min[0] = 4'b1000;
+			sec[1] = 4'b1000;
+			sec[0] = 4'b1000;
+			cnt    = 0;
+		end
+		else if (switch) begin
+			if (cnt == 50000000) begin
+				if (sec[0] == 9) begin
+					sec[0] = 4'b0000;
+					if (sec[1] == 5) begin
+						sec[1] = 4'b0000;
+						if (min[0] == 9) begin
+							min[0] = 4'b0000;
+							if (min[1] == 5) begin
+								min[1] = 4'b0000;
+								if (hr[0] == 9) begin
+									hr[0] = 4'b0000;
+									if (hr[1] == 9) begin
+										hr[1] = 4'b0000;
+									end
+									else begin
+										hr[1] = hr[1] + 4'b0001;
+									end
+								end
+								else begin
+									hr[0] = hr[0] + 4'b0001;
+								end
+							end
+							else begin
+								min[1] = min[1] + 4'b0001;
+							end
+						end
+						else begin
+							min[0] = min[0] + 4'b0001;
+						end
+					end
+					else begin
+						sec[1] = sec[1] + 4'b0001;
+					end
+				end
+				else begin
+					sec[0] = sec[0] + 4'b0001;
+				end
+				cnt = 0;
+			end
+			else begin
+				cnt = cnt + 1;
+			end
 		end
 		else begin
 		end

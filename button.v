@@ -1,4 +1,4 @@
-module area (clock, reset, finish, switch, button, area);
+module button (clock, reset, finish, switch, button, area);
 	input clock, reset, finish, switch;
 	input [3:0] button;
 	output reg [2:0] area;
